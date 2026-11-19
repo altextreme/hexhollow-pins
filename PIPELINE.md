@@ -84,6 +84,22 @@ used.)
    wall art `1111967032937184691` (Printable Wall Art); Witchy Vibes `1111967032937184729`.
 9. **Append a run log row** below and commit.
 
+## Layout skeletons (Anthony, Nov 19 2026: "Fix the layout rule")
+
+Every pin picks a format, a headline face AND a layout skeleton, each different from the last 4 run log rows.
+Look at the last 4 pins' JPEGs in `pins/`, not just the log. Rotate at minimum between:
+
+- **a.** Photo top, text block below. (Every pin through the raven run used it; don't repeat until 4 others have run.)
+- **b.** Full-bleed photo, headline over a sampled-color scrim or panel, minimal supporting text.
+- **c.** Side-by-side split, or the photo inset in a band through the middle with text above and below.
+- **d.** Type-led: a huge headline fills most of the pin; the photo is a smaller crop.
+- **e.** Photo bottom, text top.
+- **f.** Big-number or single-statement layout with the photo as a cutout or strip.
+
+Never use the "FIELD NOTES /" eyebrow again. Any eyebrow must differ every day, or leave it out. Move the logo
+around the grid (any corner, or centered at the foot), never over photo features. Log the skeleton letter in Notes.
+Before queuing, put the new pin beside the previous one: if a stranger would think they share a template, redo it.
+
 ## Gotchas
 
 - Buffer's plan caps the org at **10 scheduled posts**. Queue one a day; never batch.
@@ -102,3 +118,4 @@ used.)
 | 2026-11-19 | 4588636322 Red moth sweatshirt | Labelled diagram (how to read a moth) | EB Garamond 600 | pins/2026-11-19-how-to-read-a-moth.jpg | Gothic Graphic Tees | 6afe72e1749099bdc70a5c43 | Posts Nov 19 6:59 PM CT. Used the photos fetched by the failed run; first pin through the render/ action. Note: this sandbox's proxy blocks api.github.com for this repo, so poll raw.githubusercontent.com for the pin (or use the connector's actions_list). |
 | 2026-11-19 | 4588762149 Howling wolf moon tee | Comparison (myth vs truth) | Playfair Display 700 | pins/2026-11-19-what-the-howl-means.jpg | Gothic Graphic Tees | 6afe741259eff0b616dae864 | Test run Anthony asked for. Posts Nov 19 8:02 PM CT. Full path: photos queued, fetched, script rendered on GitHub, matched the local render. |
 | 2026-11-19 | 4587520183 Skull and raven tee | Comparison (raven or crow) | Playfair Display 900 | pins/2026-11-19-raven-or-crow.jpg | Gothic Graphic Tees | 6afe748df6b6aa0cd49d38e8 | Test run Anthony asked for. Posts Nov 19 2:56 PM CT. Ran alongside the wolf run, so it repeats that pin's format and face family; next run, pick neither. The carpool post (6afe6c54...) no longer shows as scheduled in Buffer; this pin took its slot. |
+| 2026-11-19 | 4587517884 Black cat tumbler | World-tour list (black cat luck, by place) | Bodoni Moda 700 | pins/2026-11-19-black-cat-luck.jpg | Witchy & Gothic Mugs | 6afe75ccb16549e9b82206e2 | Skeleton e (text top, photo bottom), logo top left, no eyebrow, forest green and print gold. Posts Nov 20 2:28 PM CT. Rendered on GitHub, matched the local render byte for byte. Earlier rows are all skeleton a. |
