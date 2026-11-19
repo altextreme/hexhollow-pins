@@ -6,5 +6,3 @@
 4588636322 https://i.etsystatic.com/66807773/r/il/b68df2/8672119399/il_fullxfull.8672119399_4pi3.jpg
 4588636322 https://i.etsystatic.com/66807773/r/il/397018/8672121013/il_fullxfull.8672121013_4fq0.jpg
 4588636322 https://i.etsystatic.com/66807773/r/il/f7416f/8624298220/il_fullxfull.8624298220_14au.jpg
-4588636322 https://example.com/not-etsy.jpg
-4588636322 https://i.etsystatic.com/66807773/r/il/000000/0000000000/il_fullxfull.0000000000_zzzz.jpg
