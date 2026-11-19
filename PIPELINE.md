@@ -27,7 +27,7 @@ decodes it.
 | `pins/<YYYY-MM-DD>-<slug>.jpg.b64` | Base64 of a finished pin. A push runs **Decode pins**, which writes `pins/<same name>.jpg` and deletes the `.b64`. |
 | `pins/<YYYY-MM-DD>-<slug>.jpg` | Finished pins. Served at `https://raw.githubusercontent.com/altextreme/hexhollow-pins/main/pins/<name>.jpg` |
 | `assets/` | Logos: `hh-monogram-white-140.png` (monogram, tint it), `hh-logo-monogram-white.png`, `hh-logo-full-white.png`, `hh-logo-full-dark.png`. |
-| `assets/fonts/` | Anton 400, Inter 400/500/600, Fraunces 400/600/900 as `.woff` (PIL reads them). SIL OFL licenses alongside. |
+| `assets/fonts/` | 26 OFL families as `.woff` (PIL reads them): serifs, condensed, sans, mono, two blackletters, one handwriting. `FONTS.md` says when to use each; `specimen.png` shows them all. |
 | `scripts/` | The two reference pins as runnable PIL scripts. Run from the repo root. Copy the approach, never the layout. |
 
 Both Actions trigger on push to their paths and on workflow_dispatch, share one concurrency group, and their commits
@@ -54,8 +54,8 @@ don't retrigger workflows.
      darkened but still clearly a color (not gray, not near-black). Headline = one saturated hue from the photo.
      One more accent at most. Everything else neutrals pulled from the photo's lights.
    - Image first, full bleed, under half the page height. Flush left, 64 px margins, strict grid.
-   - Type: pick the face for the concept. Faces in `assets/fonts/`; for others, `npm pack @fontsource/<family>`
-     if the registry is reachable.
+   - Type: pick the face for the concept from `assets/fonts/FONTS.md`. Never reuse the previous run's display face
+     (log it in the run log). For others, `npm pack @fontsource/<family>` if the registry is reachable.
    - Curly quotes and apostrophes. No widows, shadows, gradients, ornaments or em dashes.
    - Logo: `assets/hh-monogram-white-140.png` tinted to the light neutral, wordmark "Hex & Hollow" beside it.
    - Leave a clear pause above the footer; nothing near-touching anything.
@@ -86,7 +86,7 @@ don't retrigger workflows.
 
 ## Run log
 
-| Date | Listing | Format | Pin file | Board | Buffer post | Notes |
-|---|---|---|---|---|---|---|
-| 2026-11-19 | 4620217027 Carpool sweatshirt | List (setlist) | pins/2026-11-19-carpool-setlist.jpg | Gothic Graphic Tees | 6afe6c54b16549e9b81edc83 | Posts Nov 19 2:56 PM CT. Image re-hosted here after the old renderer was deleted. |
-| 2026-11-19 | 4604532797 Opossum mug | Big-number infographic | pins/2026-11-19-opossum-by-the-numbers.jpg | Witchy & Gothic Mugs | 6afe6e0259eff0b616d91629 | Posts Nov 19 4:28 PM CT. End-to-end test of this pipeline. |
+| Date | Listing | Format | Display face | Pin file | Board | Buffer post | Notes |
+|---|---|---|---|---|---|---|---|
+| 2026-11-19 | 4620217027 Carpool sweatshirt | List (setlist) | Anton | pins/2026-11-19-carpool-setlist.jpg | Gothic Graphic Tees | 6afe6c54b16549e9b81edc83 | Posts Nov 19 2:56 PM CT. Image re-hosted here after the old renderer was deleted. |
+| 2026-11-19 | 4604532797 Opossum mug | Big-number infographic | Fraunces | pins/2026-11-19-opossum-by-the-numbers.jpg | Witchy & Gothic Mugs | 6afe6e0259eff0b616d91629 | Posts Nov 19 4:28 PM CT. End-to-end test of this pipeline. |
