@@ -5,6 +5,11 @@ the pin file in pins/ so the reviewer can look at it.
 
 ## Rejected
 
+- **Headline periods** (Nov 18): "Per the design taste skill, I don't think headlines should have periods on them unless
+  it's multiple sentences." Moth, howl, black cat, frog, tree, coffee v3 and opossum all ended a one-sentence headline
+  with a period. Re-rendered without it (moth-v2, howl-v2, black-cat-luck-v2, toxic-is-learned-v2, goth-up-the-tree-v3,
+  coffee-still-up-v4, opossum-by-the-numbers-v2). The creative director treats a one-sentence headline ending in a
+  period as a hard fail.
 - **pins/2026-11-19-coffee-still-up-v2.jpg** (Nov 18): "Having a faded out image like this in the corner is not in the
   design taste skill. It's poorly executed. The graph is fine but it looks gross." The problem was the tall photo crop
   parked in the bottom-right corner with feathered edges, floating in the field. The creative director passed it, which
@@ -21,11 +26,15 @@ the pin file in pins/ so the reviewer can look at it.
 ## Approved
 
 - **pins/2026-11-19-carpool-setlist.jpg**: "Leave the carpool pin. That's great." He published it himself.
-- **pins/2026-11-19-coffee-still-up-v3.jpg**: the redo with the photo full-bleed across the top and a hard edge.
-  (Made by the coordinator; treat it as the reference for a chart pin, not yet a direct quote of approval.)
+- **pins/2026-11-19-coffee-still-up-v4.jpg** (v3 with the headline period removed): the redo with the photo full-bleed
+  across the top and a hard edge. (Made by the coordinator; treat it as the reference for a chart pin, not yet a direct
+  quote of approval.)
 
 ## Standing preferences (his words)
 
+- "Per the design taste skill, I don't think headlines should have periods on them unless it's multiple sentences."
+  (Nov 18.) A one-sentence headline ends with no full stop; a headline of two or more sentences keeps them. The skill
+  doesn't say this outright; it is his call.
 - "I need variety. Lists like tonite, infographics, illustrations, etc."
 - "make sure that the color palette is always inspired by the image so it vibes well."
 - "it's ok to have the color field fade out at the edge so it blends into the photo better. You don't have to be so
