@@ -1,0 +1,53 @@
+name: Render pins
+on:
+  push:
+    paths: ['render/**.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: repo-writes
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow
+        run: pip install --quiet pillow numpy
+      - name: Render new scripts
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          mkdir -p pins
+          rendered=0
+          for s in render/*.py; do
+            name="$(basename "$s" .py)"
+            out="pins/${name}.jpg"
+            if [[ -e "$out" ]]; then echo "skip $s: $out already exists (never overwritten)"; continue; fi
+            echo "::group::render $s"
+            PIN_OUT="$out" python "$s"
+            echo "::endgroup::"
+            python - "$out" <<'PY'
+          import sys
+          from PIL import Image
+          p = sys.argv[1]
+          im = Image.open(p)
+          assert im.format == 'JPEG', f'{p} is {im.format}, expected JPEG'
+          assert im.size == (1000, 1500), f'{p} is {im.size}, expected (1000, 1500)'
+          print(f'{p}: {im.size} {im.format} ok')
+          PY
+            rendered=$((rendered+1))
+          done
+          echo "rendered $rendered pin(s)"
+      - name: Commit
+        run: |
+          git config user.name "hexhollow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pins
+          git diff --cached --quiet && exit 0
+          git commit -m "Render pins"
+          git pull --rebase && git push

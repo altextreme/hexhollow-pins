@@ -20,12 +20,14 @@ jobs:
           declare -A n
           while read -r id url; do
             [[ -z "${id:-}" || "$id" == \#* ]] && continue
-            [[ "$id" =~ ^[0-9]+$ ]] || { echo "skip bad id: $id"; continue; }
-            [[ "$url" =~ ^https://i\.etsystatic\.com/[A-Za-z0-9/._-]+$ ]] || { echo "skip non-Etsy url: $url"; continue; }
+            [[ "$id" =~ ^[0-9]+$ ]] || { echo "::warning::skipped bad listing id: $id"; continue; }
             n[$id]=$(( ${n[$id]:-0} + 1 ))
             out="photos/${id}-${n[$id]}.jpg"
-            curl -fsSL --max-time 60 --max-filesize 20000000 -o "$out" "$url"
-            file "$out" | grep -qiE 'jpeg|png|webp' || { echo "not an image: $url"; rm -f "$out"; }
+            [[ "${url:-}" =~ ^https://i\.etsystatic\.com/[A-Za-z0-9/._-]+$ ]] || { echo "::warning::skipped non-Etsy url for $out: ${url:-<none>}"; continue; }
+            if ! curl -fsSL --max-time 60 --max-filesize 20000000 -o "$out.tmp" "$url"; then
+              echo "::warning::download failed for $out: $url"; rm -f "$out.tmp"; continue
+            fi
+            if file "$out.tmp" | grep -qiE 'jpeg|png|webp'; then mv "$out.tmp" "$out"; else echo "::warning::not an image, skipped $out: $url"; rm -f "$out.tmp"; fi
           done < queue/photos.txt
       - name: Commit
         run: |

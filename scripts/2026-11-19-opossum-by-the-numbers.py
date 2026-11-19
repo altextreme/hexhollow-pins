@@ -69,5 +69,6 @@ ly=H-56-lh; im.paste(logo,(M,ly),logo)
 nm=f(IN,600,28); bb=d.textbbox((0,0),"Hex & Hollow",font=nm)
 d.text((M+lw+16,ly+(lh-(bb[3]-bb[1]))//2-bb[1]),"Hex & Hollow",font=nm,fill=CREAM)
 print('footer top',ly)
-im.save('/tmp/pin.jpg',quality=82,optimize=True,progressive=True)
+import os
+im.save(os.environ.get('PIN_OUT','/tmp/pin.jpg'),quality=82,optimize=True,progressive=True)
 im.resize((180,270),Image.LANCZOS).save('/tmp/pin-thumb.png')  # check feed-size legibility

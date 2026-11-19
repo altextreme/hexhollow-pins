@@ -51,5 +51,6 @@ print('logo top',ly)
 im.paste(logo,(M,ly),logo)
 bb=d.textbbox((0,0),"Hex & Hollow",font=nm)
 d.text((M+lw+18,ly+(lh-(bb[3]-bb[1]))//2-bb[1]),"Hex & Hollow",font=nm,fill=CREAM)
-im.save('/tmp/pin.jpg',quality=82,optimize=True)
+import os
+im.save(os.environ.get('PIN_OUT','/tmp/pin.jpg'),quality=82,optimize=True)
 im.resize((180,270),Image.LANCZOS).save('/tmp/pin-thumb.png')

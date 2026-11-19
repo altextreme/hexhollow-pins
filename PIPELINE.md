@@ -15,8 +15,9 @@ No fixed template. Everything a run needs is in this repo; nothing lives anywher
 
 Claude's sandbox can't reach i.etsystatic.com (Etsy photos). It can reach api.github.com and raw.githubusercontent.com.
 So a GitHub Action downloads the listing photos into this repo, and raw.githubusercontent.com hosts the finished pin
-for Buffer. Writes through the GitHub connector are text only, so a finished pin is pushed as base64 and an Action
-decodes it.
+for Buffer. No image bytes ever go through the GitHub connector (a pin as base64 is ~150K characters, too big for
+one run). Instead each day's pin is a hand-written PIL script committed to `render/`, and the **Render pins** action
+runs it on GitHub and commits the JPEG.
 
 ## Repo layout
 
@@ -24,14 +25,17 @@ decodes it.
 |---|---|
 | `queue/photos.txt` | One `listing_id url` per line. Only `https://i.etsystatic.com/...` URLs are fetched. `#` lines are comments. |
 | `photos/<listing_id>-<n>.jpg` | Written by the **Fetch listing photos** action. `n` counts that listing's lines in the file, top to bottom. |
-| `pins/<YYYY-MM-DD>-<slug>.jpg.b64` | Base64 of a finished pin. A push runs **Decode pins**, which writes `pins/<same name>.jpg` and deletes the `.b64`. |
-| `pins/<YYYY-MM-DD>-<slug>.jpg` | Finished pins. Served at `https://raw.githubusercontent.com/altextreme/hexhollow-pins/main/pins/<name>.jpg` |
+| `render/<YYYY-MM-DD>-<slug>.py` | The day's pin as a PIL script. A push runs **Render pins**: Python 3.12 + Pillow + numpy, from the repo root, with env `PIN_OUT=pins/<same name>.jpg`. The script must save a 1000x1500 JPEG to `PIN_OUT`. Scripts whose pin already exists are skipped, so a pin is never overwritten. |
+| `pins/<YYYY-MM-DD>-<slug>.jpg` | Finished pins, committed by Render pins. Served at `https://raw.githubusercontent.com/altextreme/hexhollow-pins/main/pins/<name>.jpg` |
 | `assets/` | Logos: `hh-monogram-white-140.png` (monogram, tint it), `hh-logo-monogram-white.png`, `hh-logo-full-white.png`, `hh-logo-full-dark.png`. |
 | `assets/fonts/` | 26 OFL families as `.woff` (PIL reads them): serifs, condensed, sans, mono, two blackletters, one handwriting. `FONTS.md` says when to use each; `specimen.png` shows them all. |
-| `scripts/` | The two reference pins as runnable PIL scripts. Run from the repo root. Copy the approach, never the layout. |
+| `scripts/` | Reference pins as runnable PIL scripts (same `PIN_OUT` contract). Copy the approach, never the layout. |
 
-Both Actions trigger on push to their paths and on workflow_dispatch, share one concurrency group, and their commits
-don't retrigger workflows.
+Actions trigger on push to their paths and on workflow_dispatch, share one concurrency group, and their commits
+don't retrigger workflows. **Fetch listing photos** logs a bad or non-Etsy URL as a warning and skips it rather than
+failing. **Render pins** fails loudly if a script errors or doesn't produce a 1000x1500 JPEG; GitHub emails the
+person who pushed (Anthony's account) when a run fails. (**Decode pins** for `pins/*.b64` still exists but isn't
+used.)
 
 ## Daily steps
 
@@ -44,12 +48,14 @@ don't retrigger workflows.
 4. **Wait for the run.** Poll `GET https://api.github.com/repos/altextreme/hexhollow-pins/actions/runs?per_page=1`
    until `status: completed`, `conclusion: success` (about 15 s). Then download
    `https://raw.githubusercontent.com/altextreme/hexhollow-pins/main/photos/<id>-<n>.jpg` into the sandbox.
-   Also download what you need from `assets/` and `assets/fonts/` the same way (or clone the repo).
+   Also download what you need from `assets/` and `assets/fonts/` the same way, to try the design locally first.
 5. **Pick the format.** Rotate so consecutive days differ: list (setlist, playlist, checklist), big-number
    infographic, field guide or labelled diagram, how-to steps, illustration-led quote, comparison or "this or that".
    It must be adjacent value content people save even without buying, with the product as the photo.
    His best pins look like "5 Things to Put in a Pen-Pal Letter".
-6. **Design it** in Python/PIL at 1000x1500 (follow the design-taste skill if available).
+6. **Write the script** to `render/<YYYY-MM-DD>-<slug>.py`: Python/PIL at 1000x1500 (follow the design-taste skill
+   if available). It reads `photos/`, `assets/` and `assets/fonts/` by relative path and saves to
+   `os.environ['PIN_OUT']`. Render it locally first if you can, then commit it with the GitHub connector.
    - Palette: take medians over small regions of the photo (see `scripts/`). Field = the photo's dominant deep hue,
      darkened but still clearly a color (not gray, not near-black). Headline = one saturated hue from the photo.
      One more accent at most. Everything else neutrals pulled from the photo's lights.
@@ -63,9 +69,11 @@ don't retrigger workflows.
    - Every fact must be true. Check anything you state. (The "opossums eat 5,000 ticks" claim was debunked; skip
      myths like it.)
    - Save JPEG quality ~80, aim 100 to 190 KB.
-7. **Push the pin.** Base64 it (`base64 -w 76`) to `pins/<YYYY-MM-DD>-<slug>.jpg.b64` and commit. Also commit the
-   script as `scripts/<YYYY-MM-DD>-<slug>.py`. When Decode pins succeeds, download the raw URL and compare its
-   sha256 with the local file.
+7. **Wait for Render pins and review the result.** Poll the Actions runs as in step 4. If it failed, read the run's
+   log (`GET .../actions/runs/<id>/jobs`), fix the script and push it under a new slug. When it succeeds, download
+   `https://raw.githubusercontent.com/altextreme/hexhollow-pins/main/pins/<name>.jpg` and look at it at full size
+   and downscaled to 180 px wide. If anything is off (collision, near-tangent, unreadable at feed size, wrong
+   crop), push a revised script under a new name (`-v2`, `-v3`) and review again. Never overwrite a file.
 8. **Queue in Buffer.** Org `68ce2bdb4573424f589bb15a`, Pinterest channel `6a616171e2638b94d7b9e986`.
    `create_post` with `mode: addToQueue`, `schedulingType: automatic`, `assets[0].image.url` = the raw URL plus
    `altText`, `metadata.pinterest.boardServiceId`, `title`, `url` = `https://www.etsy.com/listing/<listing_id>`,
