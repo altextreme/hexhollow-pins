@@ -96,6 +96,12 @@ Look at the last 4 pins' JPEGs in `pins/`, not just the log. Rotate at minimum b
 - **e.** Photo bottom, text top.
 - **f.** Big-number or single-statement layout with the photo as a cutout or strip.
 
+Edges (Anthony, Nov 18 2026: "it's ok to have the color field fade out at the edge so it blends into the photo better.
+You don't have to be so blocky."): where the color field meets the photo, default to a soft tonal fade. The sampled
+field color feathers into the photo over roughly 15 to 30 percent of the photo's depth (a smoothstep alpha ramp in
+numpy works). Hard edge only when the concept calls for it. Keep the product itself fully visible and unfaded, and
+measure text contrast against whatever is actually behind it.
+
 Never use the "FIELD NOTES /" eyebrow again. Any eyebrow must differ every day, or leave it out. Move the logo
 around the grid (any corner, or centered at the foot), never over photo features. Log the skeleton letter in Notes.
 Before queuing, put the new pin beside the previous one: if a stranger would think they share a template, redo it.
@@ -120,3 +126,4 @@ Before queuing, put the new pin beside the previous one: if a stranger would thi
 | 2026-11-19 | 4587520183 Skull and raven tee | Comparison (raven or crow) | Playfair Display 900 | pins/2026-11-19-raven-or-crow.jpg | Gothic Graphic Tees | 6afe748df6b6aa0cd49d38e8 | Test run Anthony asked for. Posts Nov 19 2:56 PM CT. Ran alongside the wolf run, so it repeats that pin's format and face family; next run, pick neither. The carpool post (6afe6c54...) no longer shows as scheduled in Buffer; this pin took its slot. |
 | 2026-11-19 | 4587517884 Black cat tumbler | World-tour list (black cat luck, by place) | Bodoni Moda 700 | pins/2026-11-19-black-cat-luck.jpg | Witchy & Gothic Mugs | 6afe75ccb16549e9b82206e2 | Skeleton e (text top, photo bottom), logo top left, no eyebrow, forest green and print gold. Posts Nov 20 2:28 PM CT. Rendered on GitHub, matched the local render byte for byte. Earlier rows are all skeleton a. |
 | 2026-11-19 | 4611527807 Toxic Energy frog mug | Single fact (toxic is learned) | Archivo Black | pins/2026-11-19-toxic-is-learned.jpg | Witchy & Gothic Mugs | 6afe7777b16549e9b8228f71 | Test run Anthony asked for. Skeleton b (full-bleed photo, headline over a walnut-shadow scrim), logo centered at the foot, no eyebrow, frog-lime headline. Posts Nov 20 3:12 PM CT. Matched the local render. Skipped 4588776000 (Team Edward tee: Twilight name and actor likenesses, a trademark and likeness risk to promote). A parallel run queued 4592243206 (ornament) photos at the same time, so this run avoided it. |
+| 2026-11-19 | 4592243206 Midnight Mistletoe ornament | How-to steps (how to goth up a Christmas tree) | Instrument Serif 400 | pins/2026-11-19-goth-up-the-tree-v2.jpg | Witchy & Gothic Mugs | 6afe77f146636f319e87f7c6 | Skeleton b, light variant: full-bleed photo over the top two thirds, feathered (smoothstep, 300 px) into a pale fog field sampled from the room, berry-red headline low, 2x2 steps with string-gold numerals, logo bottom right, no eyebrow. First light-field pin. v1 (logo centered at the foot) was rendered but not queued because the parallel frog run, also skeleton b, uses that logo spot. Posts Nov 20 4:56 PM CT. Next run: use c, d or f; a, b and e are all in the last 4. |
