@@ -1,0 +1,33 @@
+name: Decode pins
+on:
+  push:
+    paths: ['pins/**.b64']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: repo-writes
+  cancel-in-progress: false
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode base64 pins
+        run: |
+          set -euo pipefail
+          shopt -s nullglob globstar
+          for f in pins/**/*.b64; do
+            out="${f%.b64}"
+            case "$out" in *.png|*.jpg|*.jpeg) ;; *) out="$out.jpg" ;; esac
+            tr -d '\n\r ' < "$f" | base64 -d > "$out"
+            file "$out" | grep -qiE 'jpeg|png' || { echo "bad image from $f"; rm -f "$out"; exit 1; }
+            git rm -q --cached "$f" 2>/dev/null || true; rm -f "$f"
+          done
+      - name: Commit
+        run: |
+          git config user.name "hexhollow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A pins
+          git diff --cached --quiet || git commit -m "Decode pins"
+          git pull --rebase && git push

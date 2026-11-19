@@ -1,0 +1,36 @@
+name: Fetch listing photos
+on:
+  push:
+    paths: ['queue/photos.txt']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: repo-writes
+  cancel-in-progress: false
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download queued photos
+        run: |
+          set -euo pipefail
+          mkdir -p photos
+          declare -A n
+          while read -r id url; do
+            [[ -z "${id:-}" || "$id" == \#* ]] && continue
+            [[ "$id" =~ ^[0-9]+$ ]] || { echo "skip bad id: $id"; continue; }
+            [[ "$url" =~ ^https://i\.etsystatic\.com/[A-Za-z0-9/._-]+$ ]] || { echo "skip non-Etsy url: $url"; continue; }
+            n[$id]=$(( ${n[$id]:-0} + 1 ))
+            out="photos/${id}-${n[$id]}.jpg"
+            curl -fsSL --max-time 60 --max-filesize 20000000 -o "$out" "$url"
+            file "$out" | grep -qiE 'jpeg|png|webp' || { echo "not an image: $url"; rm -f "$out"; }
+          done < queue/photos.txt
+      - name: Commit
+        run: |
+          git config user.name "hexhollow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add photos
+          git diff --cached --quiet || git commit -m "Fetch listing photos"
+          git pull --rebase && git push

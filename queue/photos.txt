@@ -1,0 +1,5 @@
+# listing_id url  (Etsy images only; a push here runs the Fetch listing photos action)
+4604532797 https://i.etsystatic.com/66807773/r/il/febea5/8801727617/il_fullxfull.8801727617_s4f6.jpg
+4604532797 https://i.etsystatic.com/66807773/r/il/4a476a/8753911406/il_fullxfull.8753911406_csnp.jpg
+4604532797 https://i.etsystatic.com/66807773/r/il/367dfc/8801726147/il_fullxfull.8801726147_cr5t.jpg
+4604532797 https://i.etsystatic.com/66807773/r/il/7a31ef/8801727051/il_fullxfull.8801727051_o3t8.jpg
