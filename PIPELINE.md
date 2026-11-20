@@ -30,6 +30,8 @@ runs it on GitHub and commits the JPEG.
 | `assets/` | Logos: `hh-monogram-white-140.png` (monogram, tint it), `hh-logo-monogram-white.png`, `hh-logo-full-white.png`, `hh-logo-full-dark.png`. |
 | `assets/fonts/` | 26 OFL families as `.woff` (PIL reads them): serifs, condensed, sans, mono, two blackletters, one handwriting. `FONTS.md` says when to use each; `specimen.png` shows them all. |
 | `scripts/` | Reference pins as runnable PIL scripts (same `PIN_OUT` contract). Copy the approach, never the layout. |
+| `icons/` | Icon bank: 1,512 Phosphor icons in 6 weights (MIT) and 4,180 game-icons.net icons (CC BY 3.0, a few CC0), as recolorable SVGs. `index.json` has one entry per icon (id, source, path, license, author, tags, `hh` categories); `by-category.json` lists ids per Hex and Hollow category; `LICENSES.md` has the licenses and artists; `contact-sheet.png` shows a sample. See **Icons** below. |
+| `render/lib/icons.py` | Helper for pin scripts: `from lib.icons import icon, find, credit`. Not a pin; Render pins only runs `render/*.py`. |
 | `TASTE_LOG.md` | What Anthony approved and rejected, in his words, with the pin files. Read it before designing and give it to the reviewer. |
 
 Actions trigger on push to their paths and on workflow_dispatch, share one concurrency group, and their commits
@@ -140,6 +142,38 @@ It loads the design-taste skill and works in this order:
 
 Fix every must-fix under a new file name, re-render, re-review. Stop after 3 rounds; if it still fails, don't queue it
 and report what it kept rejecting. Log the round count and the hard-fail answers in Notes.
+
+## Icons
+
+`icons/` holds two open icon sets for infographics. Pull from it only when an icon carries information.
+
+- **Use icons for:** drawn infographics (a marker per data point, a symbol per bar or zone), list items shown as
+  icons instead of bullets or numerals, and labelled diagrams or how-to steps. The icon must say something the
+  text would otherwise have to.
+- **Never as decoration:** no clip-art sprinkled in corners, no icon next to a headline for vibes, no icon
+  repeating the product photo. If removing it loses nothing, remove it. (Ornaments are already a hard fail.)
+- **One family per pin:** all Phosphor in a single weight, or all game-icons. Never mix the two, and never mix
+  Phosphor weights. Phosphor is the clean set for charts, arrows, time and data; game-icons is the gothic,
+  witchy and animal motif set (raven, coffin, potion, moon, candle, skull, cat).
+- **Color from the photo:** recolor every icon from the palette sampled for that pin (the light neutral, or the
+  headline hue for the one icon that matters most). Phosphor `duotone` takes a second sampled hue as `accent`.
+  No icon keeps a default color.
+- **Size:** an icon that carries meaning is at least 96 px at full size so it reads at 180 px wide. `thin` and
+  `light` Phosphor weights only above 200 px; below that use `regular`, `bold`, `fill` or `duotone`.
+- **Find one:** `find('raven')`, `find('chart', source='phosphor')`, `find(hh='gothic')`, or read
+  `icons/by-category.json` (categories: gothic, witchy, animals, nature, coffee, music, holiday, food, home,
+  data-chart, arrows, weather, time, emotion). Categories come from name keywords, so look at the icon before
+  using it. game-icons has no moth; `ph:butterfly` is the closest.
+- **Draw it:** in a `render/` script,
+  `from lib.icons import icon` then `ic = icon('gi:raven', 160, palette_light)` gives a transparent RGBA image
+  (color as `#rrggbb` or an RGB tuple; `weight='bold'` and `accent=...` for Phosphor). Paste it with
+  `im.paste(ic, (x, y), ic)`. To try it locally, `pip install resvg-py` and download `icons/index.json` plus the
+  SVGs you need from raw.githubusercontent.com into the same paths.
+- **Credit:** any pin that uses a game-icons icon credits it in the Buffer description, as the last line before
+  the search phrases: `Icons: <artist> / game-icons.net (CC BY 3.0)`, for example
+  `Icons: Lorc / game-icons.net (CC BY 3.0)`. `credit(['gi:raven', ...])` returns the exact line (artists
+  joined with commas). game-icons asks for the artist's name, so don't drop it. Phosphor needs no credit. Log
+  the icon ids in the run log Notes.
 
 ## Gotchas
 

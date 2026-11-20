@@ -1,0 +1,30 @@
+name: Icon sheet
+on:
+  push:
+    paths: ['render/lib/**', 'icons/tools/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: repo-writes
+  cancel-in-progress: false
+jobs:
+  sheet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow and resvg
+        run: pip install --quiet pillow numpy resvg-py==0.5.0
+      - name: Render the icon test sheet with render/lib/icons.py
+        run: python icons/tools/contact_sheet.py icons/contact-sheet.png
+      - name: Commit
+        run: |
+          git config user.name "hexhollow-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add icons/contact-sheet.png
+          git diff --cached --quiet && exit 0
+          git commit -m "Render icon test sheet"
+          git pull --rebase && git push

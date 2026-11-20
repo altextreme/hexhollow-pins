@@ -16,8 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install Pillow
-        run: pip install --quiet pillow numpy
+      - name: Install Pillow and resvg
+        run: pip install --quiet pillow numpy resvg-py==0.5.0
       - name: Render new scripts
         run: |
           set -euo pipefail
