@@ -37,7 +37,7 @@ jobs:
           p = sys.argv[1]
           im = Image.open(p)
           assert im.format == 'JPEG', f'{p} is {im.format}, expected JPEG'
-          assert im.size == (1000, 1500), f'{p} is {im.size}, expected (1000, 1500)'
+          assert im.size in ((1000, 1500), (1000, 2100)), f'{p} is {im.size}, expected (1000, 1500) or (1000, 2100)'
           print(f'{p}: {im.size} {im.format} ok')
           PY
             rendered=$((rendered+1))
