@@ -1,6 +1,6 @@
 # Font library
 
-26 families, all SIL Open Font License (licenses alongside), as `.woff` files PIL reads directly:
+27 families, all SIL Open Font License (licenses alongside), as `.woff` files PIL reads directly:
 `ImageFont.truetype('assets/fonts/<family>-latin-<weight>-normal.woff', size)`.
 `specimen.png` shows every file. Latin subset only: no emoji, no non-Latin scripts.
 
@@ -15,6 +15,7 @@ three at most. Rotate: don't reuse the previous run's display face (check the ru
 | playfair-display | 400 700 900 | Romantic, vampire, Victorian. Old-style figures, so not for big stat numbers. |
 | bodoni-moda | 400 700 | Luxury, moody editorial. Only at large sizes; thins vanish small. |
 | dm-serif-display | 400 | Bold, punchy serif headline. Pairs with dm-sans. |
+| gloock | 400 | Sharp, high-contrast, edgy display serif. Gothic poster headlines that must read at feed size. |
 | instrument-serif | 400 | Condensed, quiet, literary. Long headlines that need to stay big. |
 | young-serif | 400 | Friendly, round, a little retro. Mugs, gifts, soft humor. |
 | cormorant-garamond | 500 700 | Delicate, witchy, botanical. Large sizes only. Old-style figures. |
