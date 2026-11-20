@@ -181,6 +181,10 @@ and report what it kept rejecting. Log the round count and the hard-fail answers
 ## Gotchas
 
 - Buffer's plan caps the org at **10 scheduled posts**. Queue one a day; never batch.
+- **Alt text must be 500 characters or fewer** (Pinterest's own limit; keep it under 450 to be safe). Buffer accepts a longer one
+  but the post fails at publish time with "An unknown error has occurred". Found Nov 20 2026: every errored pin (wolf, twelve
+  moons, moth, black cat) had 560 to 834 characters of alt text; every pin that posted had 494 or fewer. Title max 100,
+  description max 800. Count them before create_post.
 - Buffer fetches the image when it publishes. Never delete or rename a queued pin's file here.
 - raw.githubusercontent.com caches for about 5 minutes. Use a new filename for a changed pin; never overwrite.
 - This repo is public: listing photos, pins, assets and scripts only. Nothing private, no tokens.
