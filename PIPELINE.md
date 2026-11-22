@@ -185,6 +185,11 @@ and report what it kept rejecting. Log the round count and the hard-fail answers
   but the post fails at publish time with "An unknown error has occurred". Found Nov 20 2026: every errored pin (wolf, twelve
   moons, moth, black cat) had 560 to 834 characters of alt text; every pin that posted had 494 or fewer. Title max 100,
   description max 800. Count them before create_post.
+- **"Already pinned" means a pin exists, not a run log row.** A listing counts as pinned only if a pin linking it is live on
+  Pinterest or sent or scheduled in Buffer. Run log rows marked "not queued" or "first tried" do not count. On Nov 22 2026 the
+  runs wrongly treated three Cyber sale listings as pinned because failed rows named them: 4618209079 (In Bed by 9),
+  4618215622 (Running on Nostalgia) and 4611545302 (Still Growing hoodie). Pinterest has no pin for any of them. Their photos
+  failed review before (Nostalgia: no crop clears the slogan; hoodie: the mockup cuts the slogan), so a photo-free pin is fine.
 - Buffer fetches the image when it publishes. Never delete or rename a queued pin's file here.
 - raw.githubusercontent.com caches for about 5 minutes. Use a new filename for a changed pin; never overwrite.
 - This repo is public: listing photos, pins, assets and scripts only. Nothing private, no tokens.
